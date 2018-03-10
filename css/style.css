@@ -1,0 +1,40 @@
+/* Checkout autocomplete address - hid and reveal rest of fields */
+.woocommerce-billing-fields #billing_address_2_field {
+    display:none ;
+}
+
+.woocommerce-billing-fields #billing_address_2_field {
+    display:none ;
+}
+
+.woocommerce-billing-fields #billing_city_field {
+    display:none ;
+}
+
+.woocommerce-billing-fields #billing_state_field {
+    display:none ;
+}
+
+.woocommerce-billing-fields #billing_postcode_field {
+    display:none ;
+}
+
+.woocommerce-shipping-fields #shipping_address_2_field {
+    display:none ;
+}
+
+.woocommerce-shipping-fields #shipping_address_2_field {
+    display:none ;
+}
+
+.woocommerce-shipping-fields #shipping_city_field {
+    display:none ;
+}
+
+.woocommerce-shipping-fields #shipping_state_field {
+    display:none ;
+}
+
+.woocommerce-shipping-fields #shipping_postcode_field {
+    display:none ;
+}

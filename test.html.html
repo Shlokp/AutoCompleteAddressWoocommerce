@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div class="woocommerce-billing-fields__field-wrapper">
+		<h1>Billing Address</h1>
+		<p class="form-row form-row-wide address-field validate-required" data-priority="50" id="billing_address_1_field">
+		<label class="" for="billing_address_1">Street address <abbr class="required" title=
+		"required">*</abbr></label><input autocomplete="address-line1" class="input-text" id="billing_address_1" name=
+		"billing_address_1" placeholder="House number and street name" type="text" value=""></p>
+
+		<p class="form-row form-row-wide address-field" data-priority="60" id="billing_address_2_field" ><input autocomplete=
+		"address-line2" class="input-text" id="billing_address_2" name="billing_address_2" placeholder=
+		"Apartment, suite, unit etc. (optional)" type="text" value=""></p>
+
+		<p class="form-row form-row-wide address-field validate-required" data-priority="70" id="billing_city_field" >
+		<label class="" for="billing_city">Town / City <abbr class="required" title=
+		"required" >*</abbr></label><input autocomplete="address-level2" class="input-text" id="billing_city" name=
+		"billing_city" placeholder="" type="text" value="" ></p>
+
+		<p class="form-row form-row-wide address-field validate-state" data-priority="80" id="billing_state_field" >
+		<label class="" for="billing_state">County</label><input autocomplete="address-level1" class="input-text" id=
+		"billing_state" name="billing_state" placeholder="" type="text" value="" ></p>
+
+		<p class="form-row form-row-wide address-field validate-required validate-postcode" data-priority="90" id=
+		"billing_postcode_field" ><label class="" for="billing_postcode">Postcode <abbr class="required" title=
+		"required">*</abbr></label><input autocomplete="postal-code" class="input-text" id="billing_postcode" name=
+		"billing_postcode" placeholder="" type="text" value="" ></p>
+	</div>
+
+	<div class="woocommerce-shipping-fields__field-wrapper">
+		<h1>Shipping Address</h1>
+		<p class="form-row form-row-wide address-field validate-required" data-priority="50" id="shipping_address_1_field">
+		<label class="" for="shipping_address_1">Street address <abbr class="required" title=
+		"required">*</abbr></label><input autocomplete="address-line1" class="input-text" id="shipping_address_1" name=
+		"shipping_address_1" placeholder="House number and street name" type="text" value=""></p>
+
+		<p class="form-row form-row-wide address-field" data-priority="60" id="shipping_address_2_field" ><input autocomplete=
+		"address-line2" class="input-text" id="shipping_address_2" name="shipping_address_2" placeholder=
+		"Apartment, suite, unit etc. (optional)" type="text" value=""></p>
+
+		<p class="form-row form-row-wide address-field validate-required" data-priority="70" id="shipping_city_field" >
+		<label class="" for="shipping_city">Town / City <abbr class="required" title=
+		"required" >*</abbr></label><input autocomplete="address-level2" class="input-text" id="shipping_city" name=
+		"shipping_city" placeholder="" type="text" value="" ></p>
+
+		<p class="form-row form-row-wide address-field validate-state" data-priority="80" id="shipping_state_field" >
+		<label class="" for="shipping_state">County</label><input autocomplete="address-level1" class="input-text" id=
+		"shipping_state" name="shipping_state" placeholder="" type="text" value="" ></p>
+
+		<p class="form-row form-row-wide address-field validate-required validate-postcode" data-priority="90" id=
+		"shipping_postcode_field" ><label class="" for="shipping_postcode">Postcode <abbr class="required" title=
+		"required">*</abbr></label><input autocomplete="postal-code" class="input-text" id="shipping_postcode" name=
+		"shipping_postcode" placeholder="" type="text" value="" ></p>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+	var place, autocompleteBilling, autocompleteShipping;
+
+	function initAutocomplete() {
+	  autocompleteBilling = new google.maps.places.Autocomplete(
+	      /** @type {!HTMLInputElement} */(document.getElementById('billing_address_1')),
+	      {componentRestrictions: {country: "gb"}});
+	  autocompleteBilling.addListener('place_changed',  function () {document.getElementById('billing_address_1').value=''; fillInAddress(autocompleteBilling, "billing");});
+
+	  autocompleteShipping = new google.maps.places.Autocomplete(
+	      /** @type {!HTMLInputElement} */(document.getElementById('shipping_address_1')),
+	      {componentRestrictions: {country: "gb"}});
+	  autocompleteShipping.addListener('place_changed', function () {document.getElementById('shipping_address_1').value=''; fillInAddress(autocompleteShipping, "shipping");});
+
+	}
+
+	function fillInAddress(autocomplete, location) {
+	  var place = autocomplete.getPlace();
+	  var address = {};
+	  for (var i = 0; i < place.address_components.length; i++) {
+	    var addressType = place.address_components[i].types[0];
+	    switch (addressType) {
+	      case "street_number":
+	        address.street_number = place.address_components[i].short_name;
+	        break;
+	      case "route":
+	        address.street = place.address_components[i].short_name;
+	        break;
+	      case "administrative_area_level_2":
+	        address.state = place.address_components[i].short_name;
+	        break;
+	      case "postal_town":
+	        address.city = place.address_components[i].long_name;
+	        break;
+	      case "postal_code":
+	        address.postcode = place.address_components[i].short_name;
+	        break;
+	    }
+	  }
+
+	  $("#" + location + "_postcode").val(address.postcode).change();
+	  $("#" + location + "_address_1").val(address.street_number + " " + address.street).change();
+	  $("#" + location + "_city").val(address.city).change();
+	  $("#" + location + "_state").val(address.state).change();
+	}
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD15Oww69TNUikIjRLNhtc5ntgn6htnLA&libraries=places&callback=initAutocomplete" async defer></script>
+</body>
+</html>
