@@ -40,8 +40,8 @@ function fillInAddress(autocomplete, location) {
     }
   }
 
-  $("#" + location + "_postcode").val(address.postcode).change();
-  $("#" + location + "_address_1").val(address.street_number + " " + address.street).change();
-  $("#" + location + "_city").val(address.city).change();
-  $("#" + location + "_state").val(address.state).change();
+  jQuery("#" + location + "_postcode").val(address.postcode).change();
+  jQuery("#" + location + "_address_1").val(address.street_number + " " + address.street).change();
+  jQuery("#" + location + "_city").val(address.city).change();
+  jQuery("#" + location + "_state").val(address.state).change();
 }
